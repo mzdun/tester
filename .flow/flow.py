@@ -10,9 +10,9 @@ import subprocess
 import sys
 from contextlib import contextmanager
 from dataclasses import dataclass
-from typing import List, Optional
+from typing import List, Optional, cast
 
-CXX_FLOW_VERSION = "0.3.0"
+CXX_FLOW_VERSION = "0.4.3"
 PROJECT_ROOT = os.path.dirname(os.path.dirname(__file__))
 VER_REGEX = re.compile(r"((?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*))")
 
@@ -40,8 +40,8 @@ class Version:
             return None
 
     @staticmethod
-    def proc_parse(process: subprocess.CompletedProcess[str]):
-        value = process.stdout.strip() if process.returncode == 0 else ""
+    def proc_parse(process: subprocess.CompletedProcess):
+        value = cast(str, process.stdout).strip() if process.returncode == 0 else ""
         m = VER_REGEX.search(value)
         return Version.parse(m.group(0)) if m is not None else None
 
@@ -54,8 +54,8 @@ PYTHON_EXECUTABLE = sys.executable
 def python(
     *args: List[str],
     module: Optional[str] = None,
-    capture_output: Optional[bool] = True,
-) -> subprocess.CompletedProcess[bytes]:
+    capture_output: bool = True,
+) -> subprocess.CompletedProcess:
     if module is not None:
         return subprocess.run(
             [PYTHON_EXECUTABLE, "-m", module, *args],
@@ -67,11 +67,11 @@ def python(
     )
 
 
-def pip(*args: List[str], capture_output: Optional[bool] = False):
+def pip(*args: List[str], capture_output: bool = False):
     return python(*args, module="pip", capture_output=capture_output)
 
 
-def venv(*args: List[str], capture_output: Optional[bool] = False):
+def venv(*args: List[str], capture_output: bool = False):
     return python(*args, module="venv", capture_output=capture_output)
 
 
@@ -123,7 +123,7 @@ def activate_virtual_env():
         )
 
         if not has_venv:
-            venv("--upgrade-deps", ".venv")
+            venv(".venv")
             bindir = get_venv_path()
 
         os.environ["PATH"] = (
@@ -143,15 +143,15 @@ def bootstrap_cxx_flow():
             return True
 
     if pip("--version", capture_output=True).returncode != 0:
-        print("Cannot call pip as a module. Exiting.\n")
+        print("Cannot call pip as a module. Exiting.\n", file=sys.stderr)
         sys.exit(1)
 
     version_major = CXX_FLOW.major
     version_minor = CXX_FLOW.minor
-    version_range=f">={version_major}.{version_minor},<{version_major + 1}"
+    version_range = f">={version_major}.{version_minor},<{version_major + 1}"
 
     if pip("install", f"cxx-flow{version_range}").returncode != 0:
-        print("Cannot install cxx-flow with current pip. Exiting.\n")
+        print("Cannot install cxx-flow with current pip. Exiting.\n", file=sys.stderr)
         sys.exit(1)
 
     return CXX_FLOW.compatible_with(cxx_flow_version(print_output=True))

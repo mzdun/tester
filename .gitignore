@@ -39,3 +39,5 @@ super-linter.log
 *.profraw
 
 /.context.json
+
+/signature.key

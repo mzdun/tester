@@ -23,7 +23,7 @@ jobs:
 
     - name: Find builds
       id: flow
-      run: python ./.flow/flow.py github --matrix >> $GITHUB_OUTPUT
+      run: python ./.flow/flow.py ci --matrix
 
   build:
     needs: M
@@ -33,7 +33,7 @@ jobs:
     env:
       BUILD_TYPE: ${{ matrix.build_type }}
       CONAN_REVISIONS_ENABLED: 1
-      FLOW_COMMAND: python ./.flow/flow.py run -c os=${{ matrix.os }} build_type=${{ matrix.build_type }} compiler=${{ matrix.compiler }} sanitizer=${{ matrix.sanitizer }}
+      FLOW_COMMAND: python ./.flow/flow.py run -D os=${{ matrix.os }} build_type=${{ matrix.build_type }} compiler=${{ matrix.compiler }} sanitizer=${{ matrix.sanitizer }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       ARTIFACT_SUFFIX: ${{ matrix.github_os }}-${{ matrix.build_type }}-${{ matrix.compiler }}${{ matrix.sanitizer && '-sanitize' || '' }}
       CONAN_CACHE: ${{ matrix.github_os }}-${{ matrix.build_type }}-${{ matrix.compiler }}
@@ -56,45 +56,56 @@ jobs:
 #     ##       ##  ####  ##   ##   ##  ##   ##   ##     ## ##  #### ##     ## ##       ##  ####    ##
 #     ##       ##   ###   ## ##    ##  ##    ##  ##     ## ##   ### ##     ## ##       ##   ###    ##
 #     ######## ##    ##    ###    #### ##     ##  #######  ##    ## ##     ## ######## ##    ##    ##
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
 
-    - name: Enable PIP3
-      if: ${{ matrix.ubuntu }}
+    - name: Bootstrap Flow
       run: |
-        python -m venv --upgrade-deps .venv
-        . .venv/bin/activate
-        echo PATH=$PATH >> $GITHUB_ENV
+        python ./.flow/flow.py bootstrap
+
+    - name: Add msbuild to PATH
+      if: ${{ matrix.windows }}
+      uses: microsoft/setup-msbuild@v1.1
+
+    - name: Install WiX 4
+      if: ${{ matrix.windows }}
+      shell: cmd
+      run: |
+        dotnet tool install --global wix --version 4.0.4
+        wix extension add -g WixToolset.UI.wixext/4.0.4
 
     - name: Install Ninja
       if: ${{ matrix.ubuntu }}
       run: |
         sudo apt-get install ninja-build -y
 
-    - name: Install GCC 15
+    - name: Install GCC 13
       if: ${{ matrix.ubuntu && matrix.needs_gcc_ppa }}
       run: |
         sudo apt install software-properties-common -y
         sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-        sudo apt install gcc-15 g++-15 -y
+        sudo apt install gcc-13 g++-13 -y
 
-    - name: Set up GCC 15
+    - name: Set up GCC 13
       if: ${{ matrix.ubuntu }}
       run: |
-        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-15 150
-        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-15 150
-        sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-15 150
+        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 130
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 130
+        sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-13 130
 
-        sudo update-alternatives --set g++ /usr/bin/g++-15
-        sudo update-alternatives --set gcc /usr/bin/gcc-15
-        sudo update-alternatives --set gcov /usr/bin/gcov-15
+        sudo update-alternatives --set g++ /usr/bin/g++-13
+        sudo update-alternatives --set gcc /usr/bin/gcc-13
+        sudo update-alternatives --set gcov /usr/bin/gcov-13
 
-    - name: Set up GCC 15 as c++/cc
+    - name: Set up GCC 13 as c++/cc
       if: ${{ matrix.ubuntu && matrix.gcc }}
       run: |
-        sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++-15 150
-        sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc-15 150
+        sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++-13 130
+        sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc-13 130
 
-        sudo update-alternatives --set c++ /usr/bin/g++-15
-        sudo update-alternatives --set cc /usr/bin/gcc-15
+        sudo update-alternatives --set c++ /usr/bin/g++-13
+        sudo update-alternatives --set cc /usr/bin/gcc-13
 
     - name: Install Clang 18
       if: ${{ matrix.ubuntu && matrix.clang }}
@@ -226,4 +237,4 @@ jobs:
         path: ${{github.workspace}}/build/download/packages
     
     - name: Upload to release
-      run: python tools/release.py --upload ${{github.workspace}}/build/download/packages
+      run: python ./.flow/flow.py ci --upload ${{github.workspace}}/build/download/packages
