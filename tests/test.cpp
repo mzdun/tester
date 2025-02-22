@@ -6,8 +6,6 @@
 
 namespace tester::testing {
 
-	TEST(tester, test) {
-		ASSERT_EQ(1, 1);
-	}
+	TEST(tester, test) { ASSERT_EQ(1, 1); }
 
 }  // namespace tester::testing

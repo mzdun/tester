@@ -11,8 +11,7 @@ int main(int argc, char* argv[]) {
 	long counter{};
 
 	args::null_translator tr{};
-	args::parser parser{"",
-	                    args::from_main(argc, argv), &tr};
+	args::parser parser{"", args::from_main(argc, argv), &tr};
 
 	parser.arg(path, "path").meta("<file>").help("sets the path of foobar");
 	parser.set<std::true_type>(verbose, "v")
