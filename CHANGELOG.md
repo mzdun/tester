@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and [COMMITS.md](COMMITS.md) for commit guidelines.
 
+## [0.1.5](https://github.com/mzdun/tester/compare/v0.1.4...v0.1.5) (2025-02-22)
+
+### Bug Fixes
+
+- tweak GITHUB_TOKEN permission a bit ([0bd0cbd](https://github.com/mzdun/tester/commit/0bd0cbd5b3aff5d4e04e650d7e373f6d0fe37fe4))
+
 ## [0.1.4](https://github.com/mzdun/tester/compare/v0.1.3...v0.1.4) (2025-02-22)
 
 ### Bug Fixes
