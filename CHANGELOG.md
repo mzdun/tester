@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and [COMMITS.md](COMMITS.md) for commit guidelines.
 
+## [0.1.2](https://github.com/mzdun/tester/compare/v0.1.1...v0.1.2) (2025-02-22)
+
+### Bug Fixes
+
+- use proj-flow v0.12.0 ([9dc400d](https://github.com/mzdun/tester/commit/9dc400d7887e3961ad717e7ac426bbd6e082b75b))
+
 ## [0.1.1](https://github.com/mzdun/tester/commits/v0.1.1) (2025-02-22)
 
 ### Bug Fixes
