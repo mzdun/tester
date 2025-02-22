@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and [COMMITS.md](COMMITS.md) for commit guidelines.
 
+## [0.1.6](https://github.com/mzdun/tester/compare/v0.1.5...v0.1.6) (2025-02-22)
+
+### Bug Fixes
+
+- let's check the GraphQL ([8f4eb6b](https://github.com/mzdun/tester/commit/8f4eb6b01a0eb64e4210140665565a42d4a58aea))
+
 ## [0.1.5](https://github.com/mzdun/tester/compare/v0.1.4...v0.1.5) (2025-02-22)
 
 ### Bug Fixes
