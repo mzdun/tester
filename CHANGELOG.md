@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and [COMMITS.md](COMMITS.md) for commit guidelines.
 
+## [0.1.7](https://github.com/mzdun/tester/compare/v0.1.6...v0.1.7) (2025-02-22)
+
+### Bug Fixes
+
+- clean up CI ([3801349](https://github.com/mzdun/tester/commit/38013491d1ab0bcd14cdfeafb807f677b9183250))
+
 ## [0.1.6](https://github.com/mzdun/tester/compare/v0.1.5...v0.1.6) (2025-02-22)
 
 ### Bug Fixes
