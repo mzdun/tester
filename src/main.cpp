@@ -3,7 +3,7 @@
 
 #include <fmt/format.h>
 #include <args/parser.hpp>
-#include <wall/version.hpp>
+#include <tester/version.hpp>
 
 int main(int argc, char* argv[]) {
 	std::string path;

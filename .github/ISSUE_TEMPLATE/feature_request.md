@@ -5,9 +5,9 @@ about: Suggest an idea for this project
 
 <!--
 
-Have you read wall's Code of Conduct? By filing an Issue, you are
+Have you read tester's Code of Conduct? By filing an Issue, you are
 expected to comply with it, including treating everyone with respect:
-https://github.com/mbits-libs/wall/blob/master/CODE_OF_CONDUCT.md
+https://github.com/mbits-libs/tester/blob/master/CODE_OF_CONDUCT.md
 
 -->
 
@@ -25,4 +25,4 @@ _A clear and concise description of the alternative solutions you've considered.
 
 ## Additional context
 
-_Add any other context or screenshots about the feature request here._ 
+_Add any other context or screenshots about the feature request here._

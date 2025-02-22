@@ -38,6 +38,6 @@ web.log
 super-linter.log
 *.profraw
 
-/.context.json
+.venv/
 
-/signature.key
+/.context.yaml

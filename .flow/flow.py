@@ -10,9 +10,9 @@ import subprocess
 import sys
 from contextlib import contextmanager
 from dataclasses import dataclass
-from typing import List, Optional, cast
+from typing import Optional, cast
 
-CXX_FLOW_VERSION = "0.4.3"
+CXX_FLOW_VERSION = "0.11.3"
 PROJECT_ROOT = os.path.dirname(os.path.dirname(__file__))
 VER_REGEX = re.compile(r"((?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*))")
 
@@ -46,13 +46,13 @@ class Version:
         return Version.parse(m.group(0)) if m is not None else None
 
 
-CXX_FLOW = Version.parse(CXX_FLOW_VERSION)
+proj_flow = Version.parse(CXX_FLOW_VERSION)
 
 PYTHON_EXECUTABLE = sys.executable
 
 
 def python(
-    *args: List[str],
+    *args: str,
     module: Optional[str] = None,
     capture_output: bool = True,
 ) -> subprocess.CompletedProcess:
@@ -67,17 +67,17 @@ def python(
     )
 
 
-def pip(*args: List[str], capture_output: bool = False):
+def pip(*args: str, capture_output: bool = False):
     return python(*args, module="pip", capture_output=capture_output)
 
 
-def venv(*args: List[str], capture_output: bool = False):
+def venv(*args: str, capture_output: bool = False):
     return python(*args, module="venv", capture_output=capture_output)
 
 
 def cxx_flow_version(print_output=False):
     proc = subprocess.run(
-        "cxx-flow --version", shell=True, encoding="UTF-8", capture_output=True
+        "proj-flow --version", shell=True, encoding="UTF-8", capture_output=True
     )
     result = Version.proc_parse(proc)
     if result is None and print_output:
@@ -126,46 +126,53 @@ def activate_virtual_env():
             venv(".venv")
             bindir = get_venv_path()
 
-        os.environ["PATH"] = (
-            f"{os.path.abspath(bindir)}{os.pathsep}{os.environ['PATH']}"
-        )
-        PYTHON_EXECUTABLE = shutil.which("python") or sys.executable
+        if bindir is not None:
+            os.environ["PATH"] = (
+                f"{os.path.abspath(bindir)}{os.pathsep}{os.environ['PATH']}"
+            )
+            PYTHON_EXECUTABLE = shutil.which("python") or sys.executable
 
 
 def bootstrap_cxx_flow():
-    if CXX_FLOW.compatible_with(cxx_flow_version()):
+    if proj_flow is None:
+        print('Cannot parse version "{CXX_FLOW_VERSION}"', file=sys.stderr)
+        return False
+
+    if proj_flow.compatible_with(cxx_flow_version()):
         return True
 
     if sys.prefix == sys.base_prefix:
         activate_virtual_env()
 
-        if CXX_FLOW.compatible_with(cxx_flow_version()):
+        if proj_flow.compatible_with(cxx_flow_version()):
             return True
 
     if pip("--version", capture_output=True).returncode != 0:
         print("Cannot call pip as a module. Exiting.\n", file=sys.stderr)
         sys.exit(1)
 
-    version_major = CXX_FLOW.major
-    version_minor = CXX_FLOW.minor
+    version_major = proj_flow.major
+    version_minor = proj_flow.minor
     version_range = f">={version_major}.{version_minor},<{version_major + 1}"
 
-    if pip("install", f"cxx-flow{version_range}").returncode != 0:
-        print("Cannot install cxx-flow with current pip. Exiting.\n", file=sys.stderr)
+    if pip("install", f"proj-flow{version_range}").returncode != 0:
+        print("Cannot install proj-flow with current pip. Exiting.\n", file=sys.stderr)
         sys.exit(1)
 
-    return CXX_FLOW.compatible_with(cxx_flow_version(print_output=True))
+    return proj_flow.compatible_with(cxx_flow_version(print_output=True))
 
 
 def main():
     if not bootstrap_cxx_flow():
-        print("Cannot find a working copy of cxx-flow", file=sys.stderr)
+        print("Cannot find a working copy of proj-flow package", file=sys.stderr)
         return 1
 
     with cd(PROJECT_ROOT):
-        return subprocess.run(
-            [shutil.which("cxx-flow"), *sys.argv[1:]], shell=False
-        ).returncode
+        executable = shutil.which("proj-flow")
+        if executable is None:
+            print("Cannot find a working copy of proj-flow executable", file=sys.stderr)
+            return 1
+        return subprocess.run([executable, *sys.argv[1:]]).returncode
 
 
 if __name__ == "__main__":

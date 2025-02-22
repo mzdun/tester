@@ -4,10 +4,10 @@
 #include <fmt/format.h>
 #include <gtest/gtest.h>
 
-namespace wall::testing {
+namespace tester::testing {
 
-	TEST(wall, test) {
+	TEST(tester, test) {
 		ASSERT_EQ(1, 1);
 	}
 
-}  // namespace wall::testing
+}  // namespace tester::testing

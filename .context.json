@@ -1,0 +1,40 @@
+{
+    "PROJECT": {
+        "NAME": "wall",
+        "DESCRIPTION": "",
+        "EMAIL": "marcin.zdun@gmail.com",
+        "TYPE": "console-application",
+        "WIX": {
+            "UPGRADE_GUID": "3df7b9c8-67ec-4675-9110-0e5c5300c49b"
+        }
+    },
+    "COPY": {
+        "YEAR": "2025",
+        "HOLDER": "Marcin Zdun",
+        "LICENSE": "MIT"
+    },
+    "INCLUDE_PREFIX": "wall",
+    "NAME_PREFIX": "WALL",
+    "NAMESPACE": "wall",
+    "SRCDIR": "src",
+    "INCLUDEDIR": "include/wall",
+    "with_cmake": true,
+    "with_conan": true,
+    "with_github_actions": true,
+    "with_github_social": true,
+    "CMAKE_VERSION": "3.28",
+    "__flow_version__": "0.4.3",
+    "${": "${",
+    "EXT": {
+        "cxx": ".cpp",
+        "hxx": ".hpp"
+    },
+    "cmake": {
+        "cmd": "add_executable",
+        "type": "",
+        "console-application": true,
+        "console": true,
+        "application": true,
+        "link_access": "PRIVATE"
+    }
+}

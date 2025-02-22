@@ -5,9 +5,9 @@ about: Create a report to help us improve
 
 <!--
 
-Have you read wall's Code of Conduct? By filing an Issue, you are
+Have you read tester's Code of Conduct? By filing an Issue, you are
 expected to comply with it, including treating everyone with respect:
-https://github.com/???/wall/blob/master/CODE_OF_CONDUCT.md
+https://github.com/???/tester/blob/master/CODE_OF_CONDUCT.md
 
 -->
 

@@ -2,7 +2,7 @@
 # This file is licensed under MIT license (see LICENSE for details)
 
 cmake_minimum_required (VERSION 3.28)
-project (wall
+project (tester
   VERSION 0.1.0
   DESCRIPTION ""
   LANGUAGES CXX)
@@ -15,9 +15,9 @@ if (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_BINARY_DIR})
   message(FATAL_ERROR "Building in source firectory is not supported")
 endif()
 
-set(WALL_TESTING ON CACHE BOOL "Compile and/or run self-tests")
-set(WALL_INSTALL ON CACHE BOOL "Install the application")
-set(WALL_SANITIZE OFF CACHE BOOL "Compile with sanitizers enabled")
+set(TESTER_TESTING ON CACHE BOOL "Compile and/or run self-tests")
+set(TESTER_INSTALL ON CACHE BOOL "Install the application")
+set(TESTER_SANITIZE OFF CACHE BOOL "Compile with sanitizers enabled")
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -36,14 +36,14 @@ find_package(fmt REQUIRED)
 find_package(GTest REQUIRED)
 find_package(mbits-args REQUIRED)
 
-if (WALL_TESTING)
+if (TESTER_TESTING)
   enable_testing()
 
   find_package(GTest REQUIRED)
 
   set(TEST_REPORT_DIR "${PROJECT_BINARY_DIR}/test-results")
   set(TEST_SANITIZER_TAG "")
-  if (WALL_SANITIZE)
+  if (TESTER_SANITIZE)
     set(TEST_SANITIZER_TAG "-sanitizer")
   endif()
   set(TEST_REPORT_FILE "${CMAKE_SYSTEM_NAME}-${CMAKE_CXX_COMPILER_ID}-${CMAKE_BUILD_TYPE}${TEST_SANITIZER_TAG}.xml")
@@ -55,7 +55,7 @@ old_conan_output_dirs_setup()
 # See <https://github.com/lefticus/cppbestpractices/blob/v1.0.0/02-Use_the_Tools_Available.md#compilers>
 
 if (MSVC)
-  set(WALL_ADDITIONAL_COMPILE_FLAGS
+  set(TESTER_ADDITIONAL_COMPILE_FLAGS
     /D_CRT_SECURE_NO_WARNINGS
     /D_CRT_NONSTDC_NO_WARNINGS
     /utf-8
@@ -82,15 +82,15 @@ if (MSVC)
     /w14906
     /w14928
     /w14946)
-  if (COV_SANITIZE)
-    list(APPEND WALL_ADDITIONAL_COMPILE_FLAGS
+  if (TESTER_SANITIZE)
+    list(APPEND TESTER_ADDITIONAL_COMPILE_FLAGS
       /fsanitize=address
       /D_DISABLE_VECTOR_ANNOTATION
       /D_DISABLE_STRING_ANNOTATION
     )
   endif()
 else()
-  set(WALL_ADDITIONAL_COMPILE_FLAGS
+  set(TESTER_ADDITIONAL_COMPILE_FLAGS
       -Wall -Wextra
       -Wnon-virtual-dtor
       -Wold-style-cast
@@ -105,13 +105,13 @@ else()
       -Wformat=2
   )
   if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    list(APPEND WALL_ADDITIONAL_COMPILE_FLAGS
+    list(APPEND TESTER_ADDITIONAL_COMPILE_FLAGS
       -fcolor-diagnostics
       -Wno-braced-scalar-init
     # -Wlifetime
     )
   else()
-    list(APPEND WALL_ADDITIONAL_COMPILE_FLAGS
+    list(APPEND TESTER_ADDITIONAL_COMPILE_FLAGS
       -fdiagnostics-color
       -Wmisleading-indentation
       -Wduplicated-cond
@@ -120,13 +120,13 @@ else()
       -Wuseless-cast
       )
   endif()
-  if (COV_SANITIZE)
-    list(APPEND WALL_ADDITIONAL_COMPILE_FLAGS
+  if (TESTER_SANITIZE)
+    list(APPEND TESTER_ADDITIONAL_COMPILE_FLAGS
       -fsanitize=address
       -fsanitize=undefined
-      
+
     )
-    list(APPEND WALL_ADDITIONAL_LINK_FLAGS
+    list(APPEND TESTER_ADDITIONAL_LINK_FLAGS
       -fsanitize=address
       -fsanitize=undefined
     )
@@ -136,18 +136,18 @@ endif()
 include(${PROJECT_SOURCE_DIR}/.flow/packages/config.cmake)
 include(CPack)
 
-configure_file(src/version.hpp.in include/wall/version.hpp @ONLY)
+configure_file(src/version.hpp.in include/tester/version.hpp @ONLY)
 
 set(SRCS
   src/main.cpp
-  "${CMAKE_CURRENT_BINARY_DIR}/include/wall/version.hpp"
+  "${CMAKE_CURRENT_BINARY_DIR}/include/tester/version.hpp"
 )
 
 add_executable(${PROJECT_NAME} ${SRCS})
 
 add_win32_icon(${PROJECT_NAME} "appicon.ico")
-target_compile_options(${PROJECT_NAME} PRIVATE ${WALL_ADDITIONAL_COMPILE_FLAGS})
-target_link_options(${PROJECT_NAME} PUBLIC ${WALL_ADDITIONAL_LINK_FLAGS})
+target_compile_options(${PROJECT_NAME} PRIVATE ${TESTER_ADDITIONAL_COMPILE_FLAGS})
+target_link_options(${PROJECT_NAME} PUBLIC ${TESTER_ADDITIONAL_LINK_FLAGS})
 target_include_directories(${PROJECT_NAME}
   PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -165,7 +165,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 ##  INSTALL
 ##################################################################
 
-if (WALL_INSTALL)
+if (TESTER_INSTALL)
   install(TARGETS ${PROJECT_NAME})
 endif()
 
@@ -173,7 +173,7 @@ endif()
 ##  TESTING
 ##################################################################
 
-if (WALL_TESTING)
+if (TESTER_TESTING)
   file(GLOB EXCLUDES_TEST_SRCS_CC tests/*.cc)
   file(GLOB EXCLUDES_TEST_SRCS_CPP tests/*.cpp)
   file(GLOB EXCLUDES_TEST_SRCS_CXX tests/*.cxx)

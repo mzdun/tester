@@ -1,1 +1,1 @@
-set(CPACK_PACKAGE_NAME "Wall")
+set(CPACK_PACKAGE_NAME "tester")

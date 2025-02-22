@@ -1,4 +1,4 @@
-# wall's Code of Conduct
+# tester's Code of Conduct
 
 ## Our Pledge
 
