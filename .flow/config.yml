@@ -24,11 +24,6 @@ compiler:
     gcc: [ gcc, g++ ]
   os-default: { ubuntu: gcc, windows: msvc }
 
-lts:
-  ubuntu:
-    - ubuntu-22.04
-    - ubuntu-24.04
-
 postproc:
   exclude:
     - { github_os: ubuntu-24.04, sanitizer: true }
