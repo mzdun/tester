@@ -137,8 +137,6 @@ jobs:
     - name: Install Conan
       id: conan
       uses: turtlebrowser/get-conan@main
-      with:
-        version: 1.66.0
 
     - name: Conan cache
       uses: actions/cache@v4
@@ -238,4 +236,4 @@ jobs:
         path: ${{github.workspace}}/build/download/packages
 
     - name: Publish the release
-      run: python ./.flow/flow.py github publish --ref "${{github.action_ref}}" --upload "${{github.workspace}}/build/download/packages"
+      run: python ./.flow/flow.py github publish --upload "${{github.workspace}}/build/download/packages"
