@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and [COMMITS.md](COMMITS.md) for commit guidelines.
 
+## [0.1.4](https://github.com/mzdun/tester/compare/v0.1.3...v0.1.4) (2025-02-22)
+
+### Bug Fixes
+
+- move GH_TOKEN ([49bb973](https://github.com/mzdun/tester/commit/49bb9738e70124e6a66dd89c3c07861b02f1ba27))
+
 ## [0.1.3](https://github.com/mzdun/tester/compare/v0.1.2...v0.1.3) (2025-02-22)
 
 ### Bug Fixes
