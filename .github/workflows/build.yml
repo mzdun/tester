@@ -224,8 +224,6 @@ jobs:
     permissions:
       contents: write
       packages: write
-    env:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
     - name: Checkout
@@ -237,10 +235,7 @@ jobs:
         name: Packages
         path: ${{github.workspace}}/build/download/packages
 
-    - name: debug
-      run: gh release list --json name,tagName,isDraft
-      env:
-        GH_DEBUG: api
-
     - name: Publish the release
-      run: python ./.flow/flow.py github publish --upload "${{github.workspace}}/build/download/packages" --verbose
+      run: python ./.flow/flow.py github publish --upload "${{github.workspace}}/build/download/packages"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
