@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and [COMMITS.md](COMMITS.md) for commit guidelines.
 
+## [0.1.3](https://github.com/mzdun/tester/compare/v0.1.2...v0.1.3) (2025-02-22)
+
+### Bug Fixes
+
+- why is CI not working? ([589ccbc](https://github.com/mzdun/tester/commit/589ccbcfc5ebeaeac2a757ed23774bbbe0a6b659))
+
 ## [0.1.2](https://github.com/mzdun/tester/compare/v0.1.1...v0.1.2) (2025-02-22)
 
 ### Bug Fixes
