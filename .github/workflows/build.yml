@@ -222,7 +222,7 @@ jobs:
     needs: merge
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -236,6 +236,11 @@ jobs:
       with:
         name: Packages
         path: ${{github.workspace}}/build/download/packages
+
+    - name: debug
+      run: gh release list --json name,tagName,isDraft
+      env:
+        GH_DEBUG: api
 
     - name: Publish the release
       run: python ./.flow/flow.py github publish --upload "${{github.workspace}}/build/download/packages" --verbose
