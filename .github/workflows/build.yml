@@ -222,9 +222,6 @@ jobs:
     needs: merge
     runs-on: ubuntu-latest
 
-    env:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -237,3 +234,5 @@ jobs:
 
     - name: Publish the release
       run: python ./.flow/flow.py github publish --upload "${{github.workspace}}/build/download/packages" --verbose
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
