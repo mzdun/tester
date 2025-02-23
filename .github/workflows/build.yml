@@ -11,7 +11,7 @@ env:
 
 jobs:
   release:
-    name: Release
+    name: Check Git reference
     runs-on: ubuntu-latest
     outputs:
       release: ${{fromJson(env.RELEASE) && fromJson(steps.finalize.outputs.released)}}
@@ -24,7 +24,10 @@ jobs:
       - name: Draft a release
         id: release
         if: ${{ fromJson(env.RELEASE) }}
-        run: python ./.flow/flow.py github release
+        run: |
+          git config --global user.name "GitHub Actions (${{ github.actor }})"
+          git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+          python ./.flow/flow.py github release
 
       - name: Follow up
         id: finalize
