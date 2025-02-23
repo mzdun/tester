@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and [COMMITS.md](COMMITS.md) for commit guidelines.
 
+## [1.0.0](https://github.com/mzdun/tester/compare/v0.1.11...v1.0.0) (2025-02-23)
+
+### New Features
+
+- **breaking**: bumping the major version ([c9881f6](https://github.com/mzdun/tester/commit/c9881f6722c1c7d070f3988a22e5f4d2e1a1d4d4))
+
+### BREAKING CHANGES
+
+This is a chore task forcing proj-flow to bump major version of this project.
+
 ## [0.1.11](https://github.com/mzdun/tester/compare/v0.1.10...v0.1.11) (2025-02-23)
 
 ### Bug Fixes
