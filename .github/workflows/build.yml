@@ -10,14 +10,15 @@ env:
   RELEASE: ${{ github.event_name == 'push' && github.ref_type == 'branch' && github.ref_name == 'main' }}
 
 jobs:
-  release:
-    name: Check Git reference
+  M:
+    name: Prepare builds
     runs-on: ubuntu-latest
     permissions:
       contents: write
     outputs:
       release: ${{fromJson(env.RELEASE) && fromJson(steps.finalize.outputs.released)}}
       reference: ${{toJson(steps.finalize.outputs.tag)}}
+      matrix: ${{steps.flow.outputs.matrix}}
 
     steps:
       - name: Checkout
@@ -25,6 +26,11 @@ jobs:
         with:
           fetch-depth: 0
           fetch-tags: true
+
+      - name: Bootstrap proj-flow
+        if: ${{ fromJson(env.RELEASE) }}
+        run: |
+          python ./.flow/flow.py bootstrap
 
       - name: Draft a release
         id: release
@@ -44,23 +50,6 @@ jobs:
         run: |
           echo "released=${RELEASED:=false}" >> $GITHUB_OUTPUT
           echo "tag=${TAG}" >> $GITHUB_OUTPUT
-
-  M:
-    name: Select builds
-    runs-on: ubuntu-latest
-    needs: release
-    env:
-      RELEASE: ${{needs.release.outputs.release}}
-      REFERENCE: ${{needs.release.outputs.reference}}
-    outputs:
-      release: ${{fromJson(env.RELEASE)}}
-      reference: ${{env.REFERENCE}}
-      matrix: ${{steps.flow.outputs.matrix}}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          ref: ${{fromJson(env.REFERENCE)}}
 
       - name: Find builds
         id: flow
