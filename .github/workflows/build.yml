@@ -20,8 +20,7 @@ jobs:
     steps:
       - name: Print-a-lot
         run: |
-          echo ${{toJson(env.RELEASE)}}
-          echo ${{toJson(github)}}
+          echo ${{toJson(fromJson(env.RELEASE))}}
 
       - name: Checkout
         uses: actions/checkout@v4
