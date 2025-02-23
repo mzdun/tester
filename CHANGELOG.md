@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and [COMMITS.md](COMMITS.md) for commit guidelines.
 
+## [0.1.11](https://github.com/mzdun/tester/compare/v0.1.10...v0.1.11) (2025-02-23)
+
+### Bug Fixes
+
+- **ci**: merge two setup jobs ([aaa08af](https://github.com/mzdun/tester/commit/aaa08af36daf02a04869cccc58304c9de3b481bb))
+
 ## [0.1.10](https://github.com/mzdun/tester/compare/v0.1.9...v0.1.10) (2025-02-23)
 
 ### Bug Fixes
