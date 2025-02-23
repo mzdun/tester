@@ -14,7 +14,7 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     outputs:
-      RELEASE: ${{env.RELEASE && fromJson(steps.release.outputs.released)}}
+      RELEASE: ${{fromJson(env.RELEASE) && fromJson(steps.setter.outputs.released)}}
       REFERENCE: ${{steps.release.outputs.tag}}
 
     steps:
@@ -30,6 +30,12 @@ jobs:
         if: ${{ fromJson(env.RELEASE) }}
         run: python ./.flow/flow.py github release
 
+      - name: Follow up
+        id: setter
+        env:
+          RELEASED: ${{steps.release.outputs.released}}
+        run: |
+          echo "released=${RELEASED:=false}" >> $GITHUB_OUTPUT
   M:
     name: Select builds
     runs-on: ubuntu-latest
