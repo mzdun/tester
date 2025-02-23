@@ -14,14 +14,10 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     outputs:
-      RELEASE: ${{fromJson(env.RELEASE) && fromJson(steps.setter.outputs.released)}}
-      REFERENCE: ${{steps.release.outputs.tag}}
+      RELEASE: ${{fromJson(env.RELEASE) && fromJson(steps.finalize.outputs.released)}}
+      REFERENCE: ${{steps.finalize.outputs.tag}}
 
     steps:
-      - name: Print-a-lot
-        run: |
-          echo ${{toJson(fromJson(env.RELEASE))}}
-
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -31,18 +27,24 @@ jobs:
         run: python ./.flow/flow.py github release
 
       - name: Follow up
-        id: setter
+        id: finalize
         env:
           RELEASED: ${{steps.release.outputs.released}}
+          TAG: ${{steps.release.outputs.tag}}
         run: |
           echo "released=${RELEASED:=false}" >> $GITHUB_OUTPUT
+          echo "tag=${TAG:=${{ github.sha }}}" >> $GITHUB_OUTPUT
+
   M:
     name: Select builds
     runs-on: ubuntu-latest
     needs: release
-    outputs:
-      RELEASE: ${{needs.release.outputs.RELEASE}}
+    env:
+      RELEASE: ${{fromJson(needs.release.outputs.RELEASE)}}
       REFERENCE: ${{needs.release.outputs.REFERENCE}}
+    outputs:
+      RELEASE: ${{env.RELEASE}}
+      REFERENCE: ${{env.RELEASE}}
       matrix: ${{steps.flow.outputs.matrix}}
     steps:
       - name: Checkout
