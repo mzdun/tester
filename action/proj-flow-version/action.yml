@@ -1,0 +1,12 @@
+name: Project Flow version
+runs:
+  using: composite
+  steps:
+    - name: Bootstrap
+      uses: jannekem/run-python-script-action@v1
+      with:
+        script: |
+          import os
+          print("Directory contents:")
+          for f in os.listdir():
+              print(f)

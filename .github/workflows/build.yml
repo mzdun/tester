@@ -95,6 +95,9 @@ jobs:
         with:
           python-version: "3.10"
 
+      - name: Check Flow
+        uses: mzdun/tester/action/proj-flow-version@breaking/change
+
       - name: Bootstrap Flow
         run: |
           python ./.flow/flow.py bootstrap
