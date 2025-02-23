@@ -18,13 +18,19 @@ jobs:
       REFERENCE: ${{steps.release.outputs.tag}}
 
     steps:
+      - name: Print-a-lot
+        run: |
+          echo ${{toJson(env.RELEASE)}}
+          echo ${{toJson(github)}}
+
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Draft a release
         id: release
-        if: ${{ env.RELEASE }}
+        if: ${{ fromJson(env.RELEASE) }}
         run: python ./.flow/flow.py github release
+
   M:
     name: Select builds
     runs-on: ubuntu-latest
