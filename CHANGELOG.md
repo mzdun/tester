@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and [COMMITS.md](COMMITS.md) for commit guidelines.
 
+## [0.1.8](https://github.com/mzdun/tester/compare/v0.1.7...v0.1.8) (2025-02-23)
+
+### Bug Fixes
+
+- allow GitHub bot to push to repo ([681a768](https://github.com/mzdun/tester/commit/681a768c94ad4beae751f8be28504605db31d0fe))
+- fetch all tags for release checker ([b4e18ff](https://github.com/mzdun/tester/commit/b4e18ff03a88cf2973093e10749ea5a046535037))
+- check-de-check (#3) ([e6ba1cc](https://github.com/mzdun/tester/commit/e6ba1cc1c82ec5c5793dce541f322e286340c394))
+
 ## [0.1.7](https://github.com/mzdun/tester/compare/v0.1.6...v0.1.7) (2025-02-22)
 
 ### Bug Fixes
