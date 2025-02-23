@@ -177,8 +177,6 @@ jobs:
       - name: Install Conan
         id: conan
         uses: turtlebrowser/get-conan@main
-        with:
-          version: 1.66.0
 
       - name: Conan cache
         uses: actions/cache@v4
