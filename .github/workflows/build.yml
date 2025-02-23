@@ -13,6 +13,8 @@ jobs:
   release:
     name: Check Git reference
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     outputs:
       release: ${{fromJson(env.RELEASE) && fromJson(steps.finalize.outputs.released)}}
       reference: ${{toJson(steps.finalize.outputs.tag)}}
