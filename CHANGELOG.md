@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and [COMMITS.md](COMMITS.md) for commit guidelines.
 
+## [0.1.9](https://github.com/mzdun/tester/compare/v0.1.8...v0.1.9) (2025-02-23)
+
+### Bug Fixes
+
+- get the standard workflow ([3632441](https://github.com/mzdun/tester/commit/3632441b93126e05332b19b2659c6c4d432e37f0))
+
 ## [0.1.8](https://github.com/mzdun/tester/compare/v0.1.7...v0.1.8) (2025-02-23)
 
 ### Bug Fixes
