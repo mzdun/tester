@@ -1,4 +1,6 @@
 import os
+import json
+from pprint import pprint
 
 VAR_NAME = "CXX_FLOW_VERSION"
 VARIABLE = ""
@@ -29,3 +31,5 @@ except FileNotFoundError:
 
 with open(os.environ["GITHUB_OUTPUT"], "a", encoding="UTF-8") as out:
     print(f"value={VARIABLE}", file=out)
+
+pprint(json.loads(os.environ["GITHUB_CONTEXT"]))

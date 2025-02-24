@@ -13,15 +13,12 @@ runs:
       with:
         python-version: ${{ inputs.python-version }}
 
-    - name: Bootstrap Flow
+    - name: Bootstrap Version
       run: ${{ github.action_path }}/version.py
       shell: python
-
-    - name: Dump GitHub context
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITHUB_CONTEXT"
 
     - name: Bootstrap Flow
-      run: |
-        python ./.flow/flow.py bootstrap
+      run: python ./.flow/flow.py bootstrap
+      shell: python
