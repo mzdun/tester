@@ -1,6 +1,7 @@
 import os
 import json
-from pprint import pprint
+from platform import machine
+from typing import cast
 
 VAR_NAME = "CXX_FLOW_VERSION"
 VARIABLE = ""
@@ -29,7 +30,14 @@ try:
 except FileNotFoundError:
     pass
 
-with open(os.environ["GITHUB_OUTPUT"], "a", encoding="UTF-8") as out:
-    print(f"value={VARIABLE}", file=out)
+runner = cast(dict, json.loads(os.environ["RUNNER_CONTEXT"]))
+runner_os = runner.get("os", os.name)
+runner_arch = runner.get("arch", machine() or "unk-arch")
 
-pprint(json.loads(os.environ["GITHUB_CONTEXT"]))
+pip_cache_key = f"{runner_os}-{runner_arch}-{VARIABLE}"
+
+with open(os.environ["GITHUB_OUTPUT"], "a", encoding="UTF-8") as out:
+    print(f"version={VARIABLE}", file=out)
+    print(f"pip-cache-key={pip_cache_key}", file=out)
+
+print(json.loads(os.environ["RUNNER_CONTEXT"]))
