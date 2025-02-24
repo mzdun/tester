@@ -14,11 +14,11 @@ runs:
         python-version: ${{ inputs.python-version }}
 
     - name: Bootstrap Version
-      run: ${{ github.action_path }}/version.py
-      shell: python
+      run: python ${{ github.action_path }}/version.py
+      shell: bash
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
 
     - name: Bootstrap Flow
       run: python ./.flow/flow.py bootstrap
-      shell: python
+      shell: bash
