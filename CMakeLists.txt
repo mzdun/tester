@@ -3,7 +3,7 @@
 
 cmake_minimum_required (VERSION 3.28)
 project (tester
-  VERSION 1.0.0
+  VERSION 0.2.2
   DESCRIPTION ""
   LANGUAGES CXX)
 

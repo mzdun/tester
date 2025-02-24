@@ -27,6 +27,11 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
+      - name: Bootstrap Flow
+        uses: ./action/bootstrap
+        with:
+          python-version: "3.10"
+
       - name: Bootstrap proj-flow
         if: ${{ fromJson(env.RELEASE) }}
         run: |

@@ -1,0 +1,37 @@
+name: Python + Project Flow bootstrap
+author: Marcin Zdun
+
+inputs:
+  python-version:
+    description: "Version range or exact version of Python or PyPy to use, using SemVer's version range syntax. Reads from .python-version if unset."
+
+outputs:
+  version:
+    description: Version of the `proj-flow` this project expects
+    value: ${{ steps.version.outputs.version }}
+
+runs:
+  using: composite
+  steps:
+    - name: Python 3.10
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Bootstrap Version
+      id: version
+      run: python ${{ github.action_path }}/version.py
+      shell: bash
+      env:
+        RUNNER_CONTEXT: ${{ toJson(runner) }}
+
+    - name: Pip Cache
+      uses: actions/cache@v4
+      id: cache
+      with:
+        path: .flow/.env
+        key: ${{ steps.version.outputs.pip-cache-key }}
+
+    - name: Bootstrap Flow
+      run: python ./.flow/flow.py bootstrap
+      shell: bash
