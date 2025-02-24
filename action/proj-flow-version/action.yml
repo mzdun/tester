@@ -1,12 +1,43 @@
 name: Project Flow version
+
+outputs:
+  version:
+    description: Version of the `proj-flow` this project expects
+    value: ${{ steps.version.outputs.value }}
+
 runs:
   using: composite
   steps:
-    - name: Bootstrap
+    - id: version
       uses: jannekem/run-python-script-action@v1
       with:
         script: |
           import os
-          print("Directory contents:")
-          for f in os.listdir():
-              print(f)
+
+          VAR_NAME = "CXX_FLOW_VERSION"
+          VARIABLE = ""
+          
+          with open(".flow/flow.py", encoding="UTF-8") as flow_py:
+            for line in flow_py:
+              if not line.starts_with(VAR_NAME):
+                continue
+
+              var_list = line.split('=', 1)
+              if len(var_list) != 2:
+                continue
+
+              var = var_list[0].strip()
+              if var != VAR_NAME:
+                continue
+
+              val = var_list[1].strip()
+              open = val[:1]
+              if open not in "\"'":
+                continue
+
+              VARIABLE = val[1:].split(open, 1)[0].strip()
+              break
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="UTF-8") as out:
+            print(f"value={VARIABLE}", file=out)
+            print(f"value={VARIABLE}")
