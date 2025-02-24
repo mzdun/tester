@@ -1,0 +1,27 @@
+name: Python + Project Flow bootstrap
+author: Marcin Zdun
+
+inputs:
+  python-version:
+    description: "Version range or exact version of Python or PyPy to use, using SemVer's version range syntax. Reads from .python-version if unset."
+
+runs:
+  using: composite
+  steps:
+    - name: Python 3.10
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Bootstrap Flow
+      run: ${{ github.action_path }}/version.py
+      shell: python
+
+    - name: Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo "$GITHUB_CONTEXT"
+
+    - name: Bootstrap Flow
+      run: |
+        python ./.flow/flow.py bootstrap

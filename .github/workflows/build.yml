@@ -28,7 +28,7 @@ jobs:
           fetch-tags: true
 
       - name: Check Flow
-        uses: ./action/proj-flow-version
+        uses: ./action/bootstrap
 
       - name: Bootstrap proj-flow
         if: ${{ fromJson(env.RELEASE) }}
