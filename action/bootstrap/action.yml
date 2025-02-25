@@ -25,18 +25,12 @@ runs:
       env:
         RUNNER_CONTEXT: ${{ toJson(runner) }}
 
-    - name: Restore Pip Cache
-      uses: actions/cache/restore@v4
+    - name: Pip Cache
+      uses: actions/cache@v4
       with:
-        path: .flow/.env
+        path: .flow/.venv
         key: ${{ steps.version.outputs.pip-cache-key }}
 
     - name: Bootstrap Flow
       run: python ./.flow/flow.py bootstrap
       shell: bash
-
-    - name: Save Pip Cache
-      uses: actions/cache/save@v4
-      with:
-        path: .flow/.env
-        key: ${{ steps.version.outputs.pip-cache-key }}
