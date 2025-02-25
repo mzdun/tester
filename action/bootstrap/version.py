@@ -5,6 +5,13 @@ from typing import cast
 
 VAR_NAME = "CXX_FLOW_VERSION"
 VARIABLE = ""
+IS_FLOW_APP = False
+
+RUNNER = cast(dict, json.loads(os.environ["RUNNER_CONTEXT"]))
+RUNNER_OS = RUNNER.get("os", os.name)
+RUNNER_ARCH = RUNNER.get("arch", machine() or "unk-arch")
+
+VENV_CACHE_KEY = f"venv-{RUNNER_OS}-{RUNNER_ARCH}-{VARIABLE}"
 
 try:
     with open(".flow/flow.py", encoding="UTF-8") as flow_py:
@@ -27,17 +34,13 @@ try:
 
             VARIABLE = val[1:].split(start, 1)[0].strip()
             break
+
+    IS_FLOW_APP = True
+
 except FileNotFoundError:
     pass
 
-runner = cast(dict, json.loads(os.environ["RUNNER_CONTEXT"]))
-runner_os = runner.get("os", os.name)
-runner_arch = runner.get("arch", machine() or "unk-arch")
-
-pip_cache_key = f"{runner_os}-{runner_arch}-{VARIABLE}"
-
 with open(os.environ["GITHUB_OUTPUT"], "a", encoding="UTF-8") as out:
     print(f"version={VARIABLE}", file=out)
-    print(f"pip-cache-key={pip_cache_key}", file=out)
-
-print(json.loads(os.environ["RUNNER_CONTEXT"]))
+    print(f"venv-cache-key={VENV_CACHE_KEY}", file=out)
+    print(f"is-flow-app={json.dumps(IS_FLOW_APP)}", file=out)

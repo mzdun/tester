@@ -10,27 +10,33 @@ outputs:
     description: Version of the `proj-flow` this project expects
     value: ${{ steps.version.outputs.version }}
 
+  is-flow-app:
+    description: Checks, if this project is a Flow project
+    value: ${{ steps.version.outputs.is-flow-app }}
+
 runs:
   using: composite
   steps:
-    - name: Python 3.10
+    - name: python 3.10
       uses: actions/setup-python@v5
       with:
         python-version: ${{ inputs.python-version }}
 
-    - name: Bootstrap Version
+    - name: check version
       id: version
       run: python ${{ github.action_path }}/version.py
       shell: bash
       env:
         RUNNER_CONTEXT: ${{ toJson(runner) }}
 
-    - name: Pip Cache
+    - name: .flow/.venv cache
+      if: ${{ fromJson(steps.version.outputs.is-flow-app) }}
       uses: actions/cache@v4
       with:
         path: .flow/.venv
-        key: ${{ steps.version.outputs.pip-cache-key }}
+        key: ${{ steps.version.outputs.venv-cache-key }}
 
-    - name: Bootstrap Flow
+    - name: bootstrap
+      if: ${{ fromJson(steps.version.outputs.is-flow-app) }}
       run: python ./.flow/flow.py bootstrap
       shell: bash
