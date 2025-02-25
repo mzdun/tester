@@ -24,8 +24,15 @@ runs:
 
     - name: check version
       id: version
-      run: python ${{ github.action_path }}/version.py
-      shell: bash
+      shell: python
+      run: |
+        import os
+        import sys
+
+        ACTION_PATH = r'${{ github.action_path }}'.replace('/', os.sep)
+        sys.path.insert(0, ACTION_PATH)
+
+        import version
       env:
         RUNNER_CONTEXT: ${{ toJson(runner) }}
 
