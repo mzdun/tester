@@ -28,14 +28,9 @@ jobs:
           fetch-tags: true
 
       - name: Bootstrap Flow
-        uses: ./action/bootstrap
+        uses: ./actions/bootstrap
         with:
           python-version: "3.10"
-
-      - name: Bootstrap proj-flow
-        if: ${{ fromJson(env.RELEASE) }}
-        run: |
-          python ./.flow/flow.py bootstrap
 
       - name: Draft a release
         id: release
@@ -95,14 +90,10 @@ jobs:
       #     ##       ##  ####  ##   ##   ##  ##   ##   ##     ## ##  #### ##     ## ##       ##  ####    ##
       #     ##       ##   ###   ## ##    ##  ##    ##  ##     ## ##   ### ##     ## ##       ##   ###    ##
       #     ######## ##    ##    ###    #### ##     ##  #######  ##    ## ##     ## ######## ##    ##    ##
-      - name: Python 3.10
-        uses: actions/setup-python@v5
+      - name: Bootstrap Flow
+        uses: ./actions/bootstrap
         with:
           python-version: "3.10"
-
-      - name: Bootstrap Flow
-        run: |
-          python ./.flow/flow.py bootstrap
 
       - name: Add msbuild to PATH
         if: ${{ matrix.windows }}

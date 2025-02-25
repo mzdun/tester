@@ -11,8 +11,6 @@ RUNNER = cast(dict, json.loads(os.environ["RUNNER_CONTEXT"]))
 RUNNER_OS = RUNNER.get("os", os.name)
 RUNNER_ARCH = RUNNER.get("arch", machine() or "unk-arch")
 
-VENV_CACHE_KEY = f"venv-{RUNNER_OS}-{RUNNER_ARCH}-{VARIABLE}"
-
 try:
     with open(".flow/flow.py", encoding="UTF-8") as flow_py:
         for line in flow_py:
@@ -39,6 +37,8 @@ try:
 
 except FileNotFoundError:
     pass
+
+VENV_CACHE_KEY = f"venv-{RUNNER_OS}-{RUNNER_ARCH}-{VARIABLE}"
 
 with open(os.environ["GITHUB_OUTPUT"], "a", encoding="UTF-8") as out:
     print(f"version={VARIABLE}", file=out)
