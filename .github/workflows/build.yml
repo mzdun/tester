@@ -27,10 +27,10 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
-      - name: Bootstrap proj-flow
-        if: ${{ fromJson(env.RELEASE) }}
-        run: |
-          python ./.flow/flow.py bootstrap
+      - name: Bootstrap Flow
+        uses: mzdun/proj-flow/actions/bootstrap@main
+        with:
+          python-version: "3.10"
 
       - name: Draft a release
         id: release
@@ -90,18 +90,14 @@ jobs:
       #     ##       ##  ####  ##   ##   ##  ##   ##   ##     ## ##  #### ##     ## ##       ##  ####    ##
       #     ##       ##   ###   ## ##    ##  ##    ##  ##     ## ##   ### ##     ## ##       ##   ###    ##
       #     ######## ##    ##    ###    #### ##     ##  #######  ##    ## ##     ## ######## ##    ##    ##
-      - name: Python 3.10
-        uses: actions/setup-python@v5
+      - name: Bootstrap Flow
+        uses: mzdun/proj-flow/actions/bootstrap@main
         with:
           python-version: "3.10"
 
-      - name: Bootstrap Flow
-        run: |
-          python ./.flow/flow.py bootstrap
-
-      - name: Add msbuild to PATH
+      - name: Install WiX 4
         if: ${{ matrix.windows }}
-        uses: microsoft/setup-msbuild@v1.1
+        uses: ./actions/get-wix
 
       - name: Install WiX 4
         if: ${{ matrix.windows }}
@@ -188,6 +184,11 @@ jobs:
       #     ##        ##   ##   ##     ## ##    ## ##       ##          ##
       #     ##        ##    ##  ##     ## ##    ## ##       ##    ##    ##
       #     ##        ##     ##  #######   ######  ########  ######     ##
+
+      - name: Configure (experimental)
+        uses: ./actions/run-steps
+        with:
+          steps: Conan,CMake
 
       - name: Configure
         run: ${{ env.FLOW_COMMAND }} -s Conan,CMake

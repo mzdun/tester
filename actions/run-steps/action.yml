@@ -1,0 +1,23 @@
+name: Project Flow run wrapper
+author: Marcin Zdun
+
+inputs:
+  steps:
+    description: "List of steps to run"
+
+runs:
+  using: composite
+  steps:
+    - name: check matrix
+      id: matrix
+      shell: python
+      run: |
+        import os
+        import sys
+
+        ACTION_PATH = os.environ['ACTION_PATH'].replace('/', os.sep)
+        sys.path.insert(0, ACTION_PATH)
+
+        import proj_matrix
+      env:
+        ACTION_PATH: ${{ github.action_path }}

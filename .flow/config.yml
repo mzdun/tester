@@ -3,6 +3,7 @@ extensions:
   - proj_flow.ext.sign
   - proj_flow.ext.store
   - proj_flow.ext.github
+  - tester.bug_report
 
 entry:
   config: [ Conan, CMake ]

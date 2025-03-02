@@ -2,15 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and [COMMITS.md](COMMITS.md) for commit guidelines.
 
-## [1.0.0](https://github.com/mzdun/tester/compare/v0.1.11...v1.0.0) (2025-02-23)
+## [0.2.2](https://github.com/mzdun/tester/compare/v0.2.1...v0.2.2) (2025-02-24)
+
+### Bug Fixes
+
+- bumping the major version ([c03c9e4](https://github.com/mzdun/tester/commit/c03c9e4532459e56f7942b8235702f4bb4558010))
+
+## [0.2.1](https://github.com/mzdun/tester/compare/v0.2.0...v0.2.1) (2025-02-24)
+
+### Bug Fixes
+
+- bumping the major version ([c03c9e4](https://github.com/mzdun/tester/commit/c03c9e4532459e56f7942b8235702f4bb4558010))
+
+## [0.2.0](https://github.com/mzdun/tester/compare/v0.1.11...v0.2.0) (2025-02-24)
 
 ### New Features
 
-- **breaking**: bumping the major version ([c9881f6](https://github.com/mzdun/tester/commit/c9881f6722c1c7d070f3988a22e5f4d2e1a1d4d4))
-
-### BREAKING CHANGES
-
-This is a chore task forcing proj-flow to bump major version of this project.
+- bumping the major version ([f0b29bb](https://github.com/mzdun/tester/commit/f0b29bb26d1c6fda4638e9c3dfffc34121d00a4b))
 
 ## [0.1.11](https://github.com/mzdun/tester/compare/v0.1.10...v0.1.11) (2025-02-23)
 
